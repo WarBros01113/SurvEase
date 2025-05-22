@@ -58,6 +58,66 @@ export class MemStorage implements IStorage {
     this.currentUserId = 1;
     this.currentFormId = 1;
     this.currentCompletionId = 1;
+    
+    // Create a test user for demonstration purposes
+    this.createTestUser();
+  }
+  
+  // Create a test user with a known password
+  private async createTestUser() {
+    const testUser: User = {
+      id: this.currentUserId++,
+      username: "demo",
+      password: "fbd2c77e6a3fa73e6753042d93b8d5f29da8f2c3c1c4c5a96c968d5585587238cbea2a5a0f9991e36ca4fc68997a1fb1140e9e2a8e9620a77b9adabd1c6ef8a9.59b4e5bdd85c4265fc5e688c6e3b5988", // "password"
+      email: "demo@example.com",
+      fullName: "Demo User",
+    };
+    
+    this.users.set(testUser.id, testUser);
+    console.log("Test user created with username: 'demo' and password: 'password'");
+    
+    // Also create some sample forms
+    this.createSampleForms(testUser.id);
+  }
+  
+  // Create some sample forms for the test user
+  private createSampleForms(userId: number) {
+    const sampleForms = [
+      {
+        title: "Student Feedback Survey",
+        description: "Help us improve our courses by providing your feedback on your learning experience.",
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSfCxcEbZhKj4-Cxz9N3X4Q2g1KZ1RJZ9n5_OTRnHMUyHnD2Mw/viewform",
+        tags: ["Academic", "Student Feedback", "Education"],
+        estimatedTime: 5,
+        createdBy: userId,
+        createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
+      },
+      {
+        title: "Product User Experience Survey",
+        description: "Share your experience with our product to help us enhance user satisfaction.",
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSdBq8Bh8NQ-9zzW2QiGXgmTSXFL_81ZTcWLrS9URhO8o_dY2g/viewform",
+        tags: ["Product Testing", "User Experience", "Market Research"],
+        estimatedTime: 8,
+        createdBy: userId,
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000) // 3 days ago
+      },
+      {
+        title: "Health & Wellness Assessment",
+        description: "Complete this survey to help us understand your health and wellness needs better.",
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSeZtWyK-wQYQpriN36ZnFoCqOsJ2GjkWG4JMx0kXJFtM0Z_Uw/viewform",
+        tags: ["Health & Wellness", "Personal", "Lifestyle"],
+        estimatedTime: 10,
+        createdBy: userId,
+        createdAt: new Date()
+      }
+    ];
+    
+    sampleForms.forEach(form => {
+      const id = this.currentFormId++;
+      this.forms.set(id, { ...form, id });
+    });
+    
+    console.log("Sample forms created");
   }
 
   // User Methods
