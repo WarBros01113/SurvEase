@@ -38,6 +38,16 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Initialize database if using PostgreSQL
+  if (storage.pushSchema) {
+    await storage.pushSchema();
+  }
+  
+  // Seed initial data if it's a database implementation
+  if (storage.seedInitialData) {
+    await storage.seedInitialData();
+  }
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
