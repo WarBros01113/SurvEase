@@ -3,6 +3,9 @@ import session from "express-session";
 import createMemoryStore from "memorystore";
 import { subDays } from "date-fns";
 
+// Define a compatible session store type
+type SessionStore = ReturnType<typeof createMemoryStore>;
+
 const MemoryStore = createMemoryStore(session);
 
 // Modify the interface with any CRUD methods you might need
@@ -32,7 +35,7 @@ export interface IStorage {
   getActivityData(userId: number, days: number): Promise<{ date: string, count: number }[]>;
   
   // Session
-  sessionStore: session.SessionStore;
+  sessionStore: SessionStore;
 }
 
 export class MemStorage implements IStorage {
@@ -40,7 +43,7 @@ export class MemStorage implements IStorage {
   private forms: Map<number, Form>;
   private completions: Map<number, Completion>;
   
-  sessionStore: session.SessionStore;
+  sessionStore: SessionStore;
   currentUserId: number;
   currentFormId: number;
   currentCompletionId: number;
