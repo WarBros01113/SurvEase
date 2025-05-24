@@ -416,10 +416,12 @@ export class DatabaseStorage implements IStorage {
   sessionStore: SessionStore;
 
   constructor() {
-    this.sessionStore = new PostgresSessionStore({
-      pool: client,
-      createTableIfMissing: true
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
     });
+    
+    // Note: PostgresSessionStore requires a proper pg Pool object
+    // For now, we're using MemoryStore for sessions for simplicity
   }
 
   // Create database tables using drizzle push
