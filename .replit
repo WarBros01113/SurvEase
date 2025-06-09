@@ -34,3 +34,9 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+# PostgreSQL configuration
+[env]
+# This ensures the PostgreSQL service starts with the repl
+PGUSER = "replit"
+PGDATABASE = "main"
